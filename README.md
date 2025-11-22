@@ -172,6 +172,9 @@ project/
 ├── app.py # Resume uploader (local use)
 ├── interview.py # Hosted voice interview system
 │
+├── answers # audio file gets auto created after processing speech for answer to the interview question
+├── answers_cleaned # creates a .txt file of the transcript of the entire interview
+│
 ├── resume_processing.py # For freshly uploaded resumes
 ├── uploaded_resume_processing.py # For resumes already in bucket
 │
