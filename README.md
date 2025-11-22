@@ -87,6 +87,82 @@ This is the deployed module:
 
 ---
 
+# 🔐 Environment Setup (Important)
+
+This project requires two sensitive credentials:
+
+✔ `GOOGLE_APPLICATION_CREDENTIALS`  
+✔ `SENDER_APP_PASSWORD`  
+
+Because these contain confidential information, **do NOT upload them to GitHub**.  
+Each contributor must create their own credentials by following the steps below.
+
+# 1️⃣ Generate `GOOGLE_APPLICATION_CREDENTIALS`
+
+This is the path to your **Google Cloud Service Account JSON key**, used for BigQuery and Google Cloud authentication.
+
+### **Steps**
+
+1. Go to **Google Cloud Console**  
+   https://console.cloud.google.com/
+
+2. Select your project 
+
+3. Open the sidebar → **IAM & Admin → Service Accounts**
+
+4. Click **Create Service Account**
+
+5. Enter a name, e.g.:
+
+6. Click **Create and Continue**
+
+7. Assign these roles:
+
+- **BigQuery Data Viewer**  
+- **BigQuery Data Editor**  
+- **BigQuery Job User**
+
+8. Click **Continue → Done**
+
+9. Open the created account → go to the **Keys** tab
+
+10. Click **Add Key → Create New Key**
+
+11. Choose **JSON**, then download the file.
+
+12. Place it inside your project.
+
+13. Add this into your `.env`: GOOGLE_APPLICATION_CREDENTIALS=path/to/service_account.json
+
+# 2️⃣ Generate `SENDER_APP_PASSWORD` (Gmail App Password)
+
+This password is required for sending OTP emails from your Gmail account.
+
+### **Steps**
+
+1. Open your Google Security settings:  
+https://myaccount.google.com/security
+
+2. Under **Signing in to Google**, enable:
+- **2-Step Verification**
+
+3. After that, open App Passwords:  
+https://myaccount.google.com/apppasswords
+
+4. Choose:
+- **App:** Mail  
+- **Device:** Your device (e.g., Windows Computer)
+
+5. Click **Generate**
+
+6. Copy the 16-character password (Google shows it once)
+
+7. Add it to your `.env`: SENDER_APP_PASSWORD=your_generated_app_password.
+
+8. **Never commit this password to GitHub.**
+
+---
+
 # 🛠️ Folder Structure
 
 ```
