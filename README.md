@@ -102,21 +102,21 @@ project/
 ├── clean_up.py # Resets interview_results table
 │
 ├── templates/
-│ ├── index.html
-│ ├── shortlisted.html
-│ ├── login.html
-│ ├── interview.html
-│ ├── processing.html
-│ ├── result.html
+│ ├── index.html # resume uploading front end for HR
+│ ├── shortlisted.html # shortlisted candidates (live from BigQuery)
+│ ├── login.html # candidate interview start page
+│ ├── interview.html # candidate interview questions page
+│ ├── processing.html # candidate interview response process bar page
+│ ├── result.html # candidate interview completed page
 │
 ├── static/
-│ ├── styles.css
+│ ├── styles.css 
 │ └── css/style.css
 │
 ├── machine_learning_jd.txt
 ├── Dockerfile
 ├── requirements.txt
-└── .env.example
+└── .env
 
 ```
 
