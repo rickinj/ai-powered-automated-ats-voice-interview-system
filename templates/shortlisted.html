@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Shortlisted Candidates</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Shortlisted Candidates</h1>
+      </header>
+
+      <main>
+        {% if candidates and candidates|length > 0 %}
+          <div class="cards">
+            {% for c in candidates %}
+              <div class="card">
+                <div class="card-head">
+                  <h3>{{ c.name or 'Unnamed' }}</h3>
+                  <div class="score">{{ c.ats_score or 'N/A' }}</div>
+                </div>
+                <div class="card-body">
+                  <p>ID: {{ c.candidate_id or '-' }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="muted">No shortlisted candidates found.</p>
+        {% endif %}
+
+        <div class="actions" style="margin-top:20px;">
+          <a href="{{ url_for('index') }}" class="btn">Back to Upload</a>
+        </div>
+      </main>
+
+      <footer>
+        <small>Data is live from BigQuery.</small>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interview</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+  body {
+    font-family: "Poppins", sans-serif;
+    background: #000;
+    background: radial-gradient(circle at center, #0d0d0d 0%, #000000 100%);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+  .container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    padding: 40px 50px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.85);
+    width: 600px;
+}
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #e0f2fe;
+  }
+
+  #questionText {
+    font-size: 18px;
+    color: #f1f5f9;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 16px;
+    border-radius: 12px;
+    line-height: 1.5;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .timer {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fde047;
+    margin-top: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 10px 15px;
+    display: inline-block;
+  }
+
+  .status {
+    font-size: 18px;
+    color: #d1d5db;
+    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 8px 14px;
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  #stopBtn {
+    display: none;
+    margin-top: 25px;
+    padding: 12px 25px;
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  }
+
+  #stopBtn:hover {
+    background: #dc2626;
+    transform: scale(1.05);
+  }
+
+  audio {
+    margin-top: 15px;
+    width: 100%;
+    outline: none;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      width: 90%;
+      padding: 30px 25px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    #questionText {
+      font-size: 16px;
+    }
+
+    .timer, .status {
+      font-size: 16px;
+    }
+  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Question {{ q_number }} of {{ total }}</h2>
+    <p id="questionText">{{ question }}</p>
+
+    <!-- Bot voice -->
+    <audio id="botAudio" preload="auto">
+      <source src="data:audio/mp3;base64,{{ audio_data }}" type="audio/mp3">
+    </audio>
+
+    <!-- Timers and messages -->
+    <div id="timer" class="timer">Waiting for bot to finish speaking...</div>
+    <div id="status" class="status"></div>
+
+    <!-- Stop recording button -->
+    <button id="stopBtn" onclick="manualStop()">⏹️ Stop Recording</button>
+  </div>
+
+<!-- ✅ Add RecordRTC library -->
+  <script src="https://cdn.jsdelivr.net/npm/recordrtc@latest/RecordRTC.min.js"></script>
+
+{% raw %}
+<script>
+  let recorder;
+  let recordingTimer = null;
+  let previewTimer = null;
+
+  const audio = document.getElementById('botAudio');
+  const timerEl = document.getElementById('timer');
+  const statusEl = document.getElementById('status');
+  const stopBtn = document.getElementById('stopBtn');
+
+  // --- Load and play bot audio ---
+  window.addEventListener('DOMContentLoaded', () => {
+    statusEl.textContent = "🔊 Loading question audio...";
+    audio.load();
+
+    audio.addEventListener('canplaythrough', () => {
+      statusEl.textContent = "🎧 Playing question...";
+      playAudioSafely();
+    }, { once: true });
+
+    audio.addEventListener('error', () => {
+      statusEl.textContent = "⚠️ Click anywhere to start audio";
+      document.body.addEventListener('click', playAudioSafely, { once: true });
+    });
+
+    audio.addEventListener('ended', async () => {
+      stopBtn.style.display = "inline-block";
+      statusEl.textContent = "🎙️ Recording your answer...";
+      timerEl.textContent = "Recording time: 60s";
+
+      await startRecording();
+
+      const wait = setInterval(() => {
+        if (recorder && recorder.getState && recorder.getState() === "recording") {
+          clearInterval(wait);
+          startRecordingCountdown(60);
+        }
+      }, 100);
+    });
+  });
+
+  async function playAudioSafely() {
+    try {
+      await audio.play();
+    } catch {
+      document.body.addEventListener('click', () => audio.play(), { once: true });
+    }
+  }
+
+  // --- Countdown timer for recording ---
+  function startRecordingCountdown(seconds) {
+    clearInterval(recordingTimer);
+    let remaining = seconds;
+    timerEl.textContent = "Recording time: " + remaining + "s";
+
+    recordingTimer = setInterval(() => {
+      remaining--;
+      timerEl.textContent = "Recording time: " + remaining + "s";
+      if (remaining <= 0) {
+        stopRecording();
+      }
+    }, 1000);
+  }
+
+  //Improved audio recording using RecordRTC ---
+  async function startRecording() {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    recorder = RecordRTC(stream, {
+      type: 'audio',
+      mimeType: 'audio/webm',      // can switch to 'audio/wav' if needed
+      recorderType: RecordRTC.StereoAudioRecorder,
+      desiredSampRate: 16000,      // ensures clarity & compatibility with STT APIs
+      numberOfAudioChannels: 1,    // mono is usually best for voice
+      timeSlice: 0                 // record continuously, not in chunks
+    });
+
+    recorder.startRecording();
+  }
+
+  // --- Stop recording manually or automatically ---
+  async function stopRecording() {
+    clearInterval(recordingTimer);
+    recordingTimer = null;
+    clearInterval(previewTimer);
+    previewTimer = null;
+
+    stopBtn.style.display = "none";
+
+    if (recorder && recorder.getState && recorder.getState() === "recording") {
+      await recorder.stopRecording(async () => {
+        const blob = recorder.getBlob();
+        statusEl.textContent = "⏹️ Recording stopped.";
+        console.log("🛑 Recording stopped");
+
+        // Wait briefly, then start next question countdown
+        setTimeout(() => startNextQuestionCountdown(blob), 1000);
+      });
+    }
+  }
+
+  function manualStop() {
+    statusEl.textContent = "⏹️ You stopped recording early.";
+    stopRecording();
+  }
+
+  // --- Countdown before sending audio to backend ---
+  function startNextQuestionCountdown(blob) {
+    clearInterval(previewTimer);
+    let previewTime = 5;
+    timerEl.textContent = "Next question in " + previewTime + "s";
+
+    previewTimer = setInterval(() => {
+      previewTime--;
+      timerEl.textContent = "Next question in " + previewTime + "s";
+
+      if (previewTime <= 0) {
+        clearInterval(previewTimer);
+        sendAnswer(blob);
+      }
+    }, 1000);
+  }
+
+  // --- Send audio to backend ---
+  async function sendAnswer(blob) {
+    const formData = new FormData();
+    formData.append("audio_data", blob, "answer.webm");
+
+    fetch("/submit_answer", { method: "POST", body: formData })
+      .then(response => response.json())
+      .then(data => {
+        window.location.href = data.next_url;
+      })
+      .catch(err => {
+        console.error("⚠️ Failed to send answer:", err);
+        window.location.href = "/interview";
+      });
+  }
+</script>
+{% endraw %}
+</body>
+</html>

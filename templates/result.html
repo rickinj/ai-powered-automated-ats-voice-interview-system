@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Complete</title>
+  <style>
+    body {
+  font-family: "Poppins", sans-serif;
+  background: #000;
+  background: radial-gradient(circle at bottom, #111 0%, #000 100%);
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  color: #fff;
+}
+
+    .container {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  margin: 150px auto;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  padding: 50px 40px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+}
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 18px;
+      color: #E0E7FF;
+      margin-top: 10px;
+    }
+    .emoji {
+      font-size: 60px;
+      margin-bottom: 15px;
+    }
+    canvas#confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+
+  <div class="container">
+    <div class="emoji">🎉</div>
+    <h1>Thank you, {{ name }}!</h1>
+    <p>Your interview is now complete.</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    const duration = 4 * 1000;
+    const end = Date.now() + duration;
+    (function frame() {
+      confetti({
+        particleCount: 6,
+        angle: 60,
+        spread: 70,
+        origin: { x: 0 },
+        colors: ['#4F46E5', '#22C55E', '#EAB308', '#EF4444']
+      });
+      confetti({
+        particleCount: 6,
+        angle: 120,
+        spread: 70,
+        origin: { x: 1 },
+        colors: ['#4F46E5', '#22C55E', '#EAB308', '#EF4444']
+      });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Interview Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: #000; /* pure dark */
+  background: radial-gradient(circle at top, #1a1a1a 0%, #000000 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+    .container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(18px);
+  padding: 40px 50px;
+  border-radius: 20px;
+  text-align: center;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7);
+  width: 350px;
+}
+
+    h2 {
+      font-size: 26px;
+      margin-bottom: 25px;
+    }
+    input[type="text"] {
+      width: 90%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #22C55E;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+    button:hover {
+      background-color: #16A34A;
+      transform: scale(1.05);
+    }
+    .error {
+      margin-top: 15px;
+      color: #FFD700;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🤖 Welcome to AI Interview</h2>
+    <form method="POST">
+      <input type="text" name="candidate_id" placeholder="Enter Candidate ID" required>
+      <button type="submit">Start Interview</button>
+    </form>
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+Job Title: Machine Learning Engineer
+
+Location: Remote / Hybrid
+
+About the Role:
+We’re looking for a Machine Learning Engineer to design, build, and deploy end-to-end ML solutions. You’ll work closely with data scientists, software engineers, and product managers to translate business problems into scalable machine learning models that run in production.
+
+Responsibilities:
+
+Develop and deploy ML models for classification, regression, NLP, and computer vision tasks
+
+Build data pipelines for training, evaluation, and model monitoring
+
+Work with MLOps tools (Docker, CI/CD, MLflow, Kubeflow) for continuous training and deployment
+
+Optimize models for performance, latency, and cost on cloud platforms (GCP preferred)
+
+Collaborate with cross-functional teams to integrate ML features into products
+
+Monitor model drift and ensure reliability of production systems
+
+Document models, experiments, and workflows clearly
+
+Required Skills:
+
+Strong programming skills in Python
+
+Deep understanding of machine learning frameworks (scikit-learn, TensorFlow, or PyTorch)
+
+Experience with data processing libraries (pandas, NumPy, SQL)
+
+Familiarity with cloud services (GCP, BigQuery, Vertex AI)
+
+Knowledge of version control (Git) and containerization (Docker)
+
+Understanding of CI/CD practices for ML deployment
+
+Experience building and maintaining production ML pipelines
+
+Preferred Qualifications:
+
+Bachelor’s or Master’s degree in Computer Science, Data Science, or related field
+
+Experience with NLP, computer vision, or recommender systems
+
+Exposure to monitoring tools and ML observability frameworks
+
+Good communication, teamwork, and problem-solving skills
+
+Soft Skills:
+
+Strong collaboration and ownership mindset
+
+Ability to work on multiple projects under deadlines
+
+Eagerness to learn and share knowledge with others

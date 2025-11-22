@@ -1,0 +1,30 @@
+Question1: Your resume mentions deploying ML models on Vertex AI and GCP, including an 'End-to-End NLP Pipeline'. Can you describe the architecture and your role in deploying and monitoring this specific NLP solution?
+Answer1: 
+
+Question2: You've extensively used MLOps tools like TFX, Kubeflow, and MLflow. Could you elaborate on a complex ML pipeline you designed and automated, explaining the specific components you integrated and the challenges you overcame?
+Answer2: Ah
+
+Question3: You improved model inference latency by 30% using quantization, batching, and GPU optimization. Could you provide a detailed example of how you implemented these techniques in a project and how you measured the performance gain?
+Answer3: (Humming)
+
+Question4: You set up model drift detection using Vertex AI Model Monitoring and Evidently AI. Walk us through your process for configuring these tools and what actions you would take when significant model drift is detected in a production system.
+Answer4: Oh.
+
+Question5: You mentioned building and optimizing data pipelines using BigQuery and Dataflow, leading to a 20% improvement in data quality and model accuracy. Can you explain the specific optimizations you made and how you quantified these improvements?
+Answer5: 
+
+Question6: Explain the bias-variance trade-off in machine learning and discuss how understanding it guides your approach to model selection and hyperparameter tuning.
+Answer6: *creaking sound*
+
+Question7: When would you choose to use ensemble methods like Random Forests or XGBoost over a single complex model like a deep neural network, and what are the trade-offs?
+Answer7: [sustained high-pitched tone]
+
+Question8: How do you approach evaluating a machine learning model, particularly in a scenario with imbalanced classes? Which metrics would you prioritize and why?
+Answer8: Ah.
+
+Question9: Beyond just deploying a model, what steps do you consider crucial for maintaining its performance and reliability in a production environment over time?
+Answer9: WHEEEEEEEEEEE
+
+Question10: Describe a situation where feature engineering played a critical role in improving your model's performance. What techniques did you apply, and how did you validate their effectiveness?
+Answer10: [sustained high-pitched tone]
+

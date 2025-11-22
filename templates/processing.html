@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Processing Results</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #000;
+      background: radial-gradient(circle at center, #0d0d0d 0%, #000000 100%);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      padding: 40px 50px;
+      border-radius: 20px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.85);
+      width: 400px;
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-bottom: 15px;
+      font-weight: 600;
+      color: #e0f2fe;
+    }
+
+    p {
+      font-size: 18px;
+      color: #f1f5f9;
+      margin-bottom: 30px;
+    }
+
+    /* Loading Bar Styles */
+    .loading-bar {
+      width: 100%;
+      height: 10px;
+      background-color: #374151;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .progress {
+      width: 100%;
+      height: 100%;
+      background-color: #22C55E;
+      animation: progress-animation 2s infinite linear;
+    }
+
+    @keyframes progress-animation {
+      0% {
+        transform: translateX(-100%) scaleX(0);
+        opacity: 0.1;
+      }
+      50% {
+        transform: translateX(0) scaleX(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(100%) scaleX(0);
+        opacity: 0.1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Processing Your Results 🤖</h2>
+    <p>Please wait while our AI evaluates your answers. This may take a moment...</p>
+    
+    <div class="loading-bar">
+      <div class="progress"></div>
+    </div>
+  </div>
+
+  <script>
+    // Poll the backend to check if the results are ready
+    const maxRetries = 15; // Wait for up to 15 seconds (15 * 1000ms)
+    let retries = 0;
+
+    function checkResults() {
+      if (retries >= maxRetries) {
+        // If max retries reached, just redirect to results (to show whatever is available)
+        window.location.href = "{{ url_for('results') }}"; 
+        return;
+      }
+
+      // We use a HEAD request or a light GET request to check the status 
+      // without needing to transfer the full results data yet.
+      // Since Flask doesn't have a status check route, we'll try to load results.
+      fetch("{{ url_for('results') }}")
+        .then(response => {
+          if (response.ok) {
+            // If the results page is accessible (backend finished work), redirect.
+            window.location.href = "{{ url_for('results') }}";
+          } else {
+            // Results not ready, try again
+            retries++;
+            setTimeout(checkResults, 1000); // Check every 1 second
+          }
+        })
+        .catch(() => {
+          retries++;
+          setTimeout(checkResults, 1000); // Check every 1 second
+        });
+    }
+
+    // Since the /results route already contains the 15-second wait logic, 
+    // a simpler approach is to redirect immediately and let the server block:
+    
+    // Instead of polling, redirect immediately and let the server's synchronous wait block
+    // before rendering the final results. This is how the original code was implicitly designed.
+    // However, to show a proper client-side loading screen, we'll keep the redirect in 5s.
+    
+    setTimeout(() => {
+        window.location.href = "{{ url_for('results') }}";
+    }, 5000); // Wait 5 seconds before hitting the /results route which contains the backend wait.
+  </script>
+</body>
+</html>

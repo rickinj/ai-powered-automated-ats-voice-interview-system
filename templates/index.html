@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>HR Resume Uploader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <h1>Resume Uploader</h1>
+        <p class="muted">Upload PDFs and automatically process + invite candidates</p>
+      </header>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-area">
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+  <main>
+    <form method="post" enctype="multipart/form-data">
+
+      <!-- Large modern file upload box -->
+  <div class="upload-wrapper">
+
+  <label for="file-input" class="btn primary choose-btn">Choose Files</label>
+
+  <input id="file-input" class="hidden-file-input" type="file" name="resumes" multiple accept=".pdf" />
+
+  <div class="file-display" id="file-display">No file chosen</div>
+
+</div>
+
+<script>
+  const input = document.getElementById("file-input");
+  const display = document.getElementById("file-display");
+
+  input.addEventListener("change", function () {
+    if (this.files.length === 0) {
+      display.textContent = "No file chosen";
+    } else if (this.files.length === 1) {
+      display.textContent = this.files[0].name;
+    } else {
+      display.textContent = `${this.files.length} files selected`;
+    }
+  });
+</script>
+
+
+
+      <div class="actions">
+        <button type="submit" class="btn primary">Upload & Process</button>
+        <a href="{{ url_for('shortlisted') }}" class="btn">View Shortlisted</a>
+      </div>
+
+  </form>
+</main>
+
+
+      <footer>
+        <small>Built for HR — simple and focused.</small>
+      </footer>
+    </div>
+  </body>
+</html>
