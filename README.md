@@ -12,7 +12,7 @@ This project consists of **two major modules**:
 1. **Resume Processing ATS Engine** (runs locally or manually)
 2. **AI Voice Interview System** (fully deployed)
 
-Only the *AI Interview Module* is hosted in production. (The interview.py module can be run locally as well) 
+Only the *AI Interview Module* is hosted in production. (The interview.py module can be run locally as well). <br> 
 The ATS/Resume module is kept for internal/local use.
 
 ---
