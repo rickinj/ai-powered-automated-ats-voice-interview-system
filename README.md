@@ -53,8 +53,6 @@ This is the deployed module:
   - Summary feedback
 - Results are stored in **BigQuery**
 
-This module is deployed using the included Dockerfile.
-
 ---
 
 # 🧭 Architecture
