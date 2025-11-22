@@ -124,16 +124,16 @@ project/
 
 # 🚀 Running the Modules (app.py and interview.py)
 
-### **1. Install dependencies: **
+### **1. Install dependencies:**
 ``` bash
 pip install -r requirements.txt
 ```
 
-### **2. Set environment variables: **
+### **2. Set environment variables:**
 Create a `.env` file
 
 
-### **3. Run locally: **
+### **3. Run locally:**
 
 python app.py (for ats processing of resumes via a front-end)
 python interview.py (for taking interview of the candidate)
