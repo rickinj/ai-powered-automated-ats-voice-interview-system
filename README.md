@@ -135,7 +135,7 @@ Create a `.env` file
 
 ### **3. Run locally:**
 
-python app.py (for ats processing of resumes via a front-end)
+python app.py (for ats processing of resumes via a front-end) <br>
 python interview.py (for taking interview of the candidate)
 
 ---
